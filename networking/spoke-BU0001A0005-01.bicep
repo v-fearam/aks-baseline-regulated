@@ -608,7 +608,7 @@ resource nsgAcrDockerSubnet_diagnosticSettings 'Microsoft.Insights/diagnosticSet
 
 @description('cluster\'s virtual network. 65,536 (-reserved) IPs available to the workload, split across four subnets for AKS, one for App Gateway, and two for management.')
 resource clusterVNet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
-    name: 'vnet-spoke-${orgAppId}-01'
+    name: 'vnet-spoke-${orgAppId}-02'
     location: location
     properties: {
         addressSpace: {
@@ -769,7 +769,7 @@ resource clusterVNet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
 module policyAssignmentNoPublicIpsInVnet './modules/ClusterVNetShouldNotHaveNICwithpublicIP.bicep' = {
     name: 'Apply-Subscription-Spoke-PipUsage-Policies-01'
     params: {
-        clusterVNetId: resourceId('Microsoft.Network/virtualNetworks','vnet-spoke-${orgAppId}-01')
+        clusterVNetId: resourceId('Microsoft.Network/virtualNetworks','vnet-spoke-${orgAppId}-02')
     }
 }
 

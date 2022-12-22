@@ -682,20 +682,6 @@ resource clusterVNet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
                 }
             }
             {
-                name: 'snet-management-ops'
-                properties: {
-                    addressPrefix: '10.240.1.0/28'
-                    routeTable: {
-                        id: afRouteTable.id
-                    }
-                    networkSecurityGroup: {
-                        id: nsgAllowSshFromHubBastionInBound.id
-                    }
-                    privateEndpointNetworkPolicies: 'Disabled'
-                    privateLinkServiceNetworkPolicies: 'Disabled'
-                }
-            }
-            {
                 name: 'snet-management-agents'
                 properties: {
                     addressPrefix: '10.240.2.0/26'
@@ -758,10 +744,6 @@ resource clusterVNet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
 
     resource aksSystemOutOfScopeNodepoolsSubnet 'subnets' existing = {
         name: 'snet-cluster-outofscopenodepools'
-    }
-
-    resource aksManagementOpsSubnet 'subnets' existing = {
-        name: 'snet-management-ops'
     }
 }
 
@@ -1011,8 +993,6 @@ module flowlogsDeploymentAksSystemNodepools 'modules/flowlogsDeployment.bicep' =
 /*** OUTPUTS ***/
 
 output clusterVnetResourceId string = clusterVNet.id
-
-output jumpboxSubnetResourceId string = clusterVNet::aksManagementOpsSubnet.id
 
 output nodepoolSubnetResourceIds array = [
     clusterVNet::aksSystemNodepoolSubnet.id

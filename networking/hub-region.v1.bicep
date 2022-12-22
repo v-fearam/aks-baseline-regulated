@@ -6,9 +6,10 @@ targetScope = 'resourceGroup'
 @minLength(79)
 param aksImageBuilderSubnetResourceId string
 
-@description('Subnet resource Id for the AKS image builder subnet')
+@description('Subnet resource Id for the AKS jumpbox subnet')
 @minLength(79)
 param aksJumpboxSubnetResourceId string
+
 @allowed([
   'australiaeast'
   'canadacentral'

@@ -535,4 +535,4 @@ module hubToImageBuilderVNetPeering 'modules/hubsSpokesPeeringDeployment.bicep' 
 /*** OUTPUTS ***/
 
 output imageBuilderSubnetResourceId string = imageBuilderVNet::snetImageBuilder.id
-output jumpBoxSubnetResourceId string = jumpBoxVNet::snetJumpBox.id
+output jumpboxSubnetResourceId string = jumpBoxVNet::snetJumpBox.id

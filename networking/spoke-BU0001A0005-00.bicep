@@ -29,6 +29,9 @@ param location string
 @description('Flow Logs are enabled by default, if for some reason they cause conflicts with flow log policies already in place in your subscription, you can disable them by passing "false" to this parameter.')
 param deployFlowLogResources bool = true
 
+@description('The organization\'s application ID')
+var orgAppId = 'BU0001A0005'
+
 /*** EXISTING RESOURCES ***/
 
 @description('The resource group name containing virtual network in which the regional Azure Firewall is deployed.')
@@ -82,7 +85,7 @@ resource afRouteTable 'Microsoft.Network/routeTables@2021-05-01' = {
 
 @description('NSG on the jumpbox image builder subnet.')
 resource nsgJumpboxImgbuilderSubnet 'Microsoft.Network/networkSecurityGroups@2021-05-01' = {
-    name: 'nsg-vnet-spoke-BU0001A0005-00-imageBuilder'
+    name: 'nsg-vnet-spoke-${orgAppId}-00-imageBuilder'
     location: location
     properties: {
         securityRules: [
@@ -222,7 +225,7 @@ resource nsgJumpboxImgbuilderSubnet_diagnosticSettings 'Microsoft.Insights/diagn
 
 @description('NSG on the jumpbox image builder subnet.')
 resource nsgJumpboxSubnet 'Microsoft.Network/networkSecurityGroups@2021-05-01' = {
-    name: 'nsg-vnet-spoke-BU0001A0005-00-jumpbox'
+    name: 'nsg-vnet-spoke-${orgAppId}-01-jumpbox'
     location: location
     properties: {
         securityRules: [
@@ -321,6 +324,20 @@ resource nsgJumpboxSubnet 'Microsoft.Network/networkSecurityGroups@2021-05-01' =
                     destinationAddressPrefix: 'VirtualNetwork'
                     access: 'Allow'
                     priority: 110
+                    direction: 'Outbound'
+                }
+            }
+            {
+                name: 'AllowHttpsToVNetOutBound'
+                properties: {
+                    description: 'Allow Proxy VM to communicate to Packer VM'
+                    protocol: 'Tcp'
+                    sourcePortRange: '*'
+                    sourceAddressPrefix: 'VirtualNetwork'
+                    destinationPortRange: '443'
+                    destinationAddressPrefix: 'VirtualNetwork'
+                    access: 'Allow'
+                    priority: 120
                     direction: 'Outbound'
                 }
             }
@@ -446,7 +463,7 @@ resource jumpBoxVNet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
                         id: afRouteTable.id
                     }
                     networkSecurityGroup: {
-                        id: nsgJumpboxImgbuilderSubnet.id
+                        id: nsgJumpboxSubnet.id
                     }
                     privateEndpointNetworkPolicies: 'Enabled'
                     privateLinkServiceNetworkPolicies: 'Disabled'

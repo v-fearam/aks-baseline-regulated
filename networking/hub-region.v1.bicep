@@ -504,7 +504,7 @@ resource imageBuilder_ipgroups 'Microsoft.Network/ipGroups@2021-05-01' = {
 
 @description('This holds IP addresses of known AKS Jumpbox image building subnets in attached spokes.')
 resource jumpbox_ipgroups 'Microsoft.Network/ipGroups@2021-05-01' = {
-  name: 'ipg-${location}-AksJumpbox'
+  name: 'ipg-${location}-AksJumpboxes'
   location: location
   properties: {
     ipAddresses: [

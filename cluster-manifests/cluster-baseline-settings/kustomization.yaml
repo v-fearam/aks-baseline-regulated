@@ -12,6 +12,6 @@ resources:
 images:
 - name: busybox
   newName: acraks2kjtmssx7hcb4.azurecr.io/live/library/busybox
-  newTag: 1.33.0
+  newTag: 1.36.1
 - name: ghcr.io/kubereboot/kured
   newName: acraks2kjtmssx7hcb4.azurecr.io/live/kubereboot/kured

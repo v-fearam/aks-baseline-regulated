@@ -116,7 +116,6 @@ spec:
               name: rulesfiles-install-dir
             - mountPath: /etc/falcoctl
               name: falcoctl-config-volume
-          env:
       initContainers:
         - name: falco-driver-loader
           image: docker.io/falcosecurity/falco-driver-loader:0.36.0
